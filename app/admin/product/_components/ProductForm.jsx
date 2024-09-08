@@ -1,0 +1,395 @@
+"use client";
+import React, { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  FormDescription,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import {
+  MultiSelector,
+  MultiSelectorContent,
+  MultiSelectorInput,
+  MultiSelectorItem,
+  MultiSelectorList,
+  MultiSelectorTrigger,
+} from "@/components/ui/multi-select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { addProductSchema } from "@/lib/validationSchema";
+import Link from "next/link";
+import { addProductAction } from "../actions/addProductActions";
+import { toast } from "sonner";
+
+const ProductForm = ({ categories, sizes, colors }) => {
+  const [isPending, startTransition] = useTransition();
+  const [errors, setErrors] = useState([]);
+
+  const [newColors, setColors] = useState([]);
+  const [newSizes, setSizes] = useState([]);
+
+  const form = useForm({
+    resolver: zodResolver(addProductSchema),
+    defaultValues: {
+      name: "",
+      description: "",
+      product_img: [],
+      categoryId: "",
+      quantity: "",
+      price: "",
+      is_available: false,
+      is_featured: false,
+      is_newArrival: false,
+      is_bestSeller: false,
+      sizes: [], // Default empty array for sizes
+      colors: [], // Default empty array for colors
+    },
+  });
+
+  const onSubmit = (data) => {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("categoryId", data.categoryId);
+    formData.append("quantity", data.quantity);
+    formData.append("price", data.price);
+    formData.append("is_available", Boolean(data.is_available));
+    formData.append("is_bestSeller", Boolean(data.is_bestSeller));
+    formData.append("is_featured", Boolean(data.is_featured));
+    formData.append("is_newArrival", Boolean(data.is_newArrival));
+
+    if (Array.isArray(data.product_img)) {
+      data.product_img.forEach((file) => {
+        formData.append("product_img", file);
+      });
+    }
+    formData.append("colors", JSON.stringify(newColors));
+    formData.append("sizes", JSON.stringify(newSizes));
+
+    // Proceed with the action or API call
+    startTransition(async () => {
+      const response = await addProductAction(formData);
+      if (response?.errors) {
+        setErrors(response.errors);
+        toast.error("there is an error");
+      }
+      toast.success("product was added successfully");
+    });
+  };
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        {/* Name Field */}
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Product name</FormLabel>
+              <FormControl>
+                <Input placeholder="add product name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Description Field */}
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Product description</FormLabel>
+              <FormControl>
+                <Textarea placeholder="add product description" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Image Upload */}
+        <FormField
+          control={form.control}
+          name="product_img"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Product Image</FormLabel>
+              <FormControl>
+                <Input
+                  type="file"
+                  multiple
+                  onChange={(e) => {
+                    const selectedFiles = Array.from(e.target.files) || [];
+                    field.onChange(selectedFiles);
+                  }}
+                  ref={field.ref}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Category Select */}
+        <FormField
+          control={form.control}
+          name="categoryId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Category</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Category" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {categories.map((category) => (
+                    <SelectItem value={category.id} key={category.id}>
+                      {category.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormDescription>
+                You can manage categories in the{" "}
+                <Link
+                  href="/admin/category/add-category"
+                  className="text-blue-700"
+                >
+                  category page
+                </Link>
+                .
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Checkbox Fields */}
+        <div className="grid grid-cols-2 gap-10">
+          <FormField
+            control={form.control}
+            name="is_available"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>available</FormLabel>
+                </div>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="is_featured"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>Featured</FormLabel>
+                </div>
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-10">
+          <FormField
+            control={form.control}
+            name="is_bestSeller"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>best seller</FormLabel>
+                </div>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="is_newArrival"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>new arrival</FormLabel>
+                </div>
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div>
+          <h2 className="my-10">Product Variation</h2>
+
+          <div className="grid grid-cols-2 gap-10">
+            <div>
+              <FormField
+                control={form.control}
+                name="size"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>size</FormLabel>
+                    <MultiSelector
+                      values={newSizes}
+                      onValuesChange={setSizes}
+                      loop
+                      className="max-w-xs"
+                    >
+                      <MultiSelectorTrigger>
+                        <MultiSelectorInput placeholder="Select your size" />
+                      </MultiSelectorTrigger>
+                      <MultiSelectorContent>
+                        <MultiSelectorList>
+                          {sizes.map((size) => (
+                            <MultiSelectorItem
+                              value={size}
+                              key={size.id}
+                              className="uppercase"
+                            >
+                              {size.name}
+                            </MultiSelectorItem>
+                          ))}
+                        </MultiSelectorList>
+                      </MultiSelectorContent>
+                    </MultiSelector>
+                    <FormDescription>
+                      You can manage size in the{" "}
+                      <Link href="/admin/variations" className="text-blue-700">
+                        manage variations page
+                      </Link>
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div>
+              <FormField
+                control={form.control}
+                name="color"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>color</FormLabel>
+                    <MultiSelector
+                      values={newColors}
+                      onValuesChange={setColors}
+                      loop
+                      className="max-w-xs"
+                    >
+                      <MultiSelectorTrigger>
+                        <MultiSelectorInput placeholder="Select your color" />
+                      </MultiSelectorTrigger>
+                      <MultiSelectorContent>
+                        <MultiSelectorList>
+                          {colors.map((color) => (
+                            <MultiSelectorItem
+                              value={color}
+                              key={color.id}
+                              className="uppercase"
+                            >
+                              {color.name}
+                            </MultiSelectorItem>
+                          ))}
+                        </MultiSelectorList>
+                      </MultiSelectorContent>
+                    </MultiSelector>
+                    <FormDescription>
+                      You can manage color in the{" "}
+                      <Link href="/admin/variations" className="text-blue-700">
+                        manage variations page
+                      </Link>
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div>
+              <FormField
+                control={form.control}
+                name="price"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Variation price</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="add category name"
+                        {...field}
+                        type="number"
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div>
+              <FormField
+                control={form.control}
+                name="quantity"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Quantity</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter quantity" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+        </div>
+
+        <Button type="submit" disabled={isPending}>
+          {isPending ? "Adding...." : "Add Product"}
+        </Button>
+      </form>
+    </Form>
+  );
+};
+
+export default ProductForm;
