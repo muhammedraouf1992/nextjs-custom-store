@@ -5,6 +5,7 @@ import TrendingProductSection from "./_components/TrendingProductSection";
 import FilterImageGrid from "./_components/FilterImageGrid";
 
 import Footer from "./_components/Footer";
+import Slider from "./_components/Slider";
 
 const FrontendPage = () => {
   return (
