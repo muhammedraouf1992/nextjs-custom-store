@@ -45,6 +45,7 @@ const HeroSection = () => {
             fill
             sizes="(min-width: 1480px) 1336px, (min-width: 480px) calc(95.92vw - 64px), (min-width: 440px) calc(200vw - 524px), (min-width: 400px) calc(200vw - 484px), calc(100vw - 64px)"
             alt="swiper image"
+            priority
           />
         </SwiperSlide>
         <SwiperSlide>
