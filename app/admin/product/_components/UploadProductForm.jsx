@@ -28,10 +28,9 @@ const UploadProductForm = () => {
     },
   });
   const onSubmit = (data) => {
-    console.log(data);
     const formData = new FormData();
     formData.append("file", data.file);
-    console.log(formData);
+
     startTransition(async () => {
       await uploadExcelProducts(formData);
       toast.success("products upload successfully");

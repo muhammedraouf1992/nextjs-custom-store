@@ -101,7 +101,7 @@ const EditProductVariation = ({ variation }) => {
                   accept="image/*"
                   onChange={(e) => {
                     const selectedFile = e.target.files?.[0] || null;
-                    console.log("Selected File:", selectedFile);
+
                     // Use setValue to update the form state
                     form.setValue("variation_img", selectedFile);
                     setImage(selectedFile);

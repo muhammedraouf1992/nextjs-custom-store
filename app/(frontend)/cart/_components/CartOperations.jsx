@@ -21,7 +21,7 @@ const CartOperations = ({
       </option>
     );
   }
-  console.log(stockLeft, typeof stockLeft);
+
   return (
     <div>
       <div className="flex gap-4">
@@ -33,7 +33,7 @@ const CartOperations = ({
             onChange={(e) => {
               setStockError(false);
               const newQuantity = parseInt(e.currentTarget.value);
-              console.log(newQuantity);
+
               if (newQuantity > stockLeft - 1) {
                 setStockError(true);
                 toast.error(`there are only ${stockLeft} left`);

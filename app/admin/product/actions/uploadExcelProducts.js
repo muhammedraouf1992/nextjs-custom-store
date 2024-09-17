@@ -103,8 +103,6 @@ const uploadProducts = async (parsedData) => {
           },
           variations: {
             create: row.variations.map((variation) => {
-              console.log("variation");
-              console.log(variation);
               return {
                 sizeId: variation.sizeId,
                 colorId: variation.colorId,

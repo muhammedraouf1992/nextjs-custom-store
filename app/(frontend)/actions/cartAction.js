@@ -13,8 +13,7 @@ export const incrementCartQuantity = async (formData, productId) => {
   }
   const data = results.data;
   const cart = (await getCart()) ?? (await createCart());
-  console.log("cart is ");
-  console.log(cart);
+
   const productVariation = await prisma.productVariation.findFirst({
     where: {
       productId,
@@ -112,8 +111,6 @@ export async function mergeAnonymousCartIntoUserCart(userId) {
     where: { userId },
     include: { cartItems: true },
   });
-  console.log("usercart");
-  console.log(userCart);
 
   await prisma.$transaction(async (tx) => {
     if (userCart) {

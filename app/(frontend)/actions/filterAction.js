@@ -11,7 +11,6 @@ export const filterAction = async (data, categoryId) => {
     return results.error.message;
   }
   const { q, colorId, sizeId } = results.data;
-  console.log(results.data);
 
   const priceRangeArray = formData.priceRange.split(",");
 

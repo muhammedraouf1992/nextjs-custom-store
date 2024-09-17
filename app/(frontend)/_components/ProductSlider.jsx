@@ -11,7 +11,7 @@ import Image from "next/image";
 
 const ProductSlider = ({ product }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  console.log(product);
+
   return (
     <>
       <Swiper

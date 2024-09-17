@@ -1,7 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { PenIcon, XIcon } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+
 import React from "react";
 import DeleteProductVariation from "./DeleteProductVariation";
 import EditProductVariation from "./EditProductVariation";

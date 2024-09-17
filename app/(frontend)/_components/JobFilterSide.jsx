@@ -51,7 +51,6 @@ const JobFilterSide = ({ sizes, colors, categoryId }) => {
     });
   };
   const onClearFilters = () => {
-    console.log("first");
     form.reset(); // Reset the form fields
     setRange([0, 300]); // Reset the price range slider
     router.push(`/category/${categoryId}`);

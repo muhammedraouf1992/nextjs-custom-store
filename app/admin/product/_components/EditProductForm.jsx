@@ -82,7 +82,7 @@ const EditProductForm = ({ categories, product }) => {
 
       if (!response?.success) {
         setErrors(response?.error);
-        console.log(response?.error);
+
         toast.error(response?.error || "Failed to update product");
       } else {
         toast.success(

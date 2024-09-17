@@ -19,8 +19,6 @@ export const createOrder = async (
   myOrderId,
   cartId
 ) => {
-  console.log("create order id", myOrderId);
-  console.log("create order id", cartId);
   const orderResponse = await axios.post(
     "https://accept.paymobsolutions.com/api/ecommerce/orders",
     {

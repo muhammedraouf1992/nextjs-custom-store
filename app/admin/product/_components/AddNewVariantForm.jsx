@@ -43,7 +43,6 @@ const AddNewVariantForm = ({ sizes, colors, product }) => {
 
   const onSubmit = async (data) => {
     // Debugging: Log the submitted data
-    console.log("Submitted data:", data);
 
     const formData = new FormData();
     formData.append("quantity", data.quantity);

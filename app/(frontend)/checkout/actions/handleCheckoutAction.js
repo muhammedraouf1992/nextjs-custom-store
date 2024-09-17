@@ -48,8 +48,7 @@ export const checkoutAction = async (formData) => {
         },
       },
     });
-    console.log("myOrderId");
-    console.log(myOrder.id);
+
     const token = await handlePaymentAction();
     const OrderId = await createOrder(
       token,

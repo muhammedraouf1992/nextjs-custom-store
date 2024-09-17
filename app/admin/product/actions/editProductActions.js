@@ -2,7 +2,7 @@
 
 import { editProductSchema } from "@/lib/validationSchema";
 import prisma from "@/prismaClient";
-import { redirect } from "next/navigation";
+
 import { uploadImages } from "../../../../lib/imageActions";
 
 export const editProductAction = async (formData, productId) => {

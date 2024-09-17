@@ -23,7 +23,7 @@ const SingleOrder = async ({ params }) => {
       },
     },
   });
-  console.log(order);
+
   return (
     <div>
       <h1 className="text-3xl my-10">Order #{order.id}</h1>
