@@ -54,7 +54,7 @@ const MainNavbar = ({ cart, category }) => {
                   <Link
                     className={cn(
                       "p-4 capitalize hover:bg-secondary hover:text-secondary-foreground focus-visible:bg-secondary focus-visible:text-secondary-foreground",
-                      pathname == "/category" &&
+                      pathname == `/category/${c.id}` &&
                         "bg-primary-foreground text-primary"
                     )}
                     href={"/category/" + c.id}

@@ -16,6 +16,9 @@ const PaginationComponent = ({ totalCount, pageSize, page }) => {
     params.set("page", pagenum.toString());
     router.push(`?${params.toString()}`);
   };
+  if (totalPages <= 1) {
+    return null;
+  }
   return (
     <div className="flex gap-5 my-10 justify-center">
       <Button
