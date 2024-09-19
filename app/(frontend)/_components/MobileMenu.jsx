@@ -27,7 +27,7 @@ const MobileMenu = ({ category, pathname }) => {
             <SheetTitle>
               <Image src={logo} width={"100"} height={"100"} alt="logo" />
             </SheetTitle>
-            <SheetDescription>
+            <SheetDescription asChild>
               <div className="font-bold flex flex-col py-2 mt-4 items-start">
                 <SheetClose asChild>
                   <Link

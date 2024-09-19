@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import logo from "@/public/unknown.png";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,7 +24,12 @@ const UserButton = () => {
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Avatar>
-              <Image src={user?.image} width={150} height={150} alt="" />
+              <Image
+                src={user.image ? user.image : logo}
+                width={150}
+                height={150}
+                alt=""
+              />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>

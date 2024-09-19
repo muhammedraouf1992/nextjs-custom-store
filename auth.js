@@ -1,10 +1,12 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth from "next-auth";
-import prisma from "./prismaClient";
+
 import Google from "next-auth/providers/google";
 import Nodemailer from "next-auth/providers/nodemailer";
 
 import { mergeAnonymousCartIntoUserCart } from "./app/(frontend)/actions/cartAction";
+import prisma from "@/prismaClient";
+import { getNameBeforeAt } from "./lib/utils";
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -24,6 +26,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   events: {
     async signIn({ user }) {
       await mergeAnonymousCartIntoUserCart(user.id);
+    },
+    async linkAccount({ user }) {
+      await prisma.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          name: getNameBeforeAt(user.email) || "user",
+        },
+      });
     },
   },
 });

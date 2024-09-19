@@ -26,7 +26,7 @@ const ShoppingCart = ({ cart }) => {
           <SheetHeader>
             <SheetTitle>Cart Items</SheetTitle>
             {cart?.size > 0 ? (
-              <SheetDescription className="h-full">
+              <SheetDescription className="h-full" asChild>
                 <div className="flex flex-col">
                   <div>
                     {cart?.cartItems.map((item) => (
