@@ -26,8 +26,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   events: {
     async signIn({ user }) {
       await mergeAnonymousCartIntoUserCart(user.id);
-    },
-    async linkAccount({ user }) {
+
       await prisma.user.update({
         where: {
           id: user.id,
