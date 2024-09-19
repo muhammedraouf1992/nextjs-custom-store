@@ -19,7 +19,7 @@ const ShoppingCart = ({ cart }) => {
   return (
     <div>
       <Sheet>
-        <SheetTrigger>
+        <SheetTrigger aria-label="cart">
           <ShoppingBagIcon />
         </SheetTrigger>
         <SheetContent>

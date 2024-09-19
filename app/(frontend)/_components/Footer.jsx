@@ -93,6 +93,7 @@ const Footer = () => {
             <a
               href="#"
               className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
+              aria-label="social media icon"
             >
               <svg
                 className="w-5 h-5"
@@ -110,6 +111,7 @@ const Footer = () => {
             <a
               href="#"
               className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
+              aria-label="social media icon"
             >
               <svg
                 className="w-5 h-5"
@@ -127,6 +129,7 @@ const Footer = () => {
             <a
               href="#"
               className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
+              aria-label="social media icon"
             >
               <svg
                 className="w-5 h-5"
@@ -140,6 +143,7 @@ const Footer = () => {
             <a
               href="#"
               className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
+              aria-label="social media icon"
             >
               <svg
                 className="w-5 h-5"
@@ -157,6 +161,7 @@ const Footer = () => {
             <a
               href="#"
               className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
+              aria-label="social media icon"
             >
               <svg
                 className="w-5 h-5"

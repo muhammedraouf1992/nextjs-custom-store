@@ -20,7 +20,10 @@ const MobileMenu = ({ category, pathname }) => {
     <div className="mobileMenu">
       <Sheet>
         <SheetTrigger>
-          <MenuIcon className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-primary-foreground rounded-lg lg:hidden hover:bg-background hover:text-black focus:outline-none focus:ring-2 focus:ring-gray-200" />
+          <MenuIcon
+            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-primary-foreground rounded-lg lg:hidden hover:bg-background hover:text-black focus:outline-none focus:ring-2 focus:ring-gray-200"
+            aria-label="mobile menu"
+          />
         </SheetTrigger>
         <SheetContent>
           <SheetHeader>
