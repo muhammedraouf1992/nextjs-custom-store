@@ -67,7 +67,7 @@ const UploadProductForm = () => {
           </Button>
           <Button asChild>
             <Link
-              href={"http://localhost:3000/products_template.xlsx"}
+              href={"/products_template.xlsx"}
               download={"products_template"}
             >
               Download template sheet
