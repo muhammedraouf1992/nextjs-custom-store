@@ -4,13 +4,7 @@ import { pickVariationSchema } from "@/lib/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
+
 import {
   Form,
   FormControl,
@@ -23,14 +17,24 @@ import AddToCartButton from "../../_components/AddToCartButton";
 import { incrementCartQuantity } from "../../actions/cartAction";
 import { toast } from "sonner";
 import { getProductVariation } from "../[id]/actions/getProductVariationAction";
-import { formatPrice } from "@/lib/utils";
+
 import Image from "next/image";
-import logo from "@/public/unknown.png";
-const PickVariationForm = ({ newSizes, newColors, productId }) => {
-  const [color, setColor] = useState(null);
-  const [size, setSize] = useState(null);
+
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
+const PickVariationForm = ({
+  newSizes,
+
+  productId,
+  colors,
+  sizes,
+  uniqueImages,
+}) => {
+  const [img, setImg] = useState(null);
 
   const [variation, setVariation] = useState(null);
+  const [scolor, setColor] = useState(null);
+  const [ssize, setSize] = useState(null);
 
   const [isPending, startTransition] = useTransition();
   const form = useForm({
@@ -42,9 +46,11 @@ const PickVariationForm = ({ newSizes, newColors, productId }) => {
   });
 
   const handleSubmit = (data) => {
+    console.log(data);
     const formData = new FormData();
     formData.append("colorId", data.colorId);
     formData.append("sizeId", data.sizeId);
+
     startTransition(async () => {
       const response = await incrementCartQuantity(formData, productId);
       if (response?.error) {
@@ -54,12 +60,47 @@ const PickVariationForm = ({ newSizes, newColors, productId }) => {
     });
   };
 
+  const handleColorSelection = (colorId, imageUrl) => {
+    setColor(colorId);
+    setImg(imageUrl);
+    if (ssize) {
+      getSingleVariation(ssize, colorId); // Call when both are selected
+    }
+  };
+
+  const handleSizeSelection = (sizeId) => {
+    setSize(sizeId);
+    if (scolor) {
+      getSingleVariation(sizeId, scolor); // Call when both are selected
+    }
+  };
   const getSingleVariation = async (size, color) => {
     if (color && size) {
       const variation = await getProductVariation(size, color, productId);
       setVariation(variation);
     }
   };
+
+  function getProductSizes(newSizesArray, value) {
+    const isExist = newSizesArray.find(
+      (newSize) => newSize.name.toLowerCase() == value.toLowerCase()
+    );
+
+    if (isExist) {
+      return false;
+    }
+    return true;
+  }
+
+  function getProductSizeId(newSizesArray, value) {
+    const isExist = newSizesArray.find(
+      (newSize) => newSize.name.toLowerCase() == value.toLowerCase()
+    );
+    if (!isExist) {
+      return null;
+    }
+    return isExist.id;
+  }
 
   return (
     <div className="mt-5">
@@ -71,32 +112,45 @@ const PickVariationForm = ({ newSizes, newColors, productId }) => {
             name="colorId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Select Color</FormLabel>
-                <Select
-                  onValueChange={(e) => {
-                    field.onChange(e);
-                    setColor(e);
-                    getSingleVariation(size, e);
-                  }}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Color" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {newColors.map((color) => (
-                      <SelectItem
-                        value={color.id}
-                        key={color.id}
-                        className="uppercase"
-                      >
-                        {color.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <FormLabel>Select color</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex flex-col space-y-1"
+                  >
+                    <div className="grid grid-cols-5 px-10 py-2">
+                      {uniqueImages.map((color) => (
+                        <FormItem
+                          className={`flex justify-center items-center`}
+                          key={color.id}
+                        >
+                          <FormControl>
+                            <RadioGroupItem
+                              value={getProductSizeId(colors, color.color.name)}
+                              onClick={() =>
+                                handleColorSelection(
+                                  color.color.id,
+                                  color.images[0].url
+                                )
+                              }
+                            />
+                          </FormControl>
+                          <FormLabel
+                            className={`font-normal border border-slate-300 cursor-pointer`}
+                          >
+                            <Image
+                              src={color.images[0].url}
+                              width={50}
+                              height={50}
+                              alt="variation image"
+                            />
+                          </FormLabel>
+                        </FormItem>
+                      ))}
+                    </div>
+                  </RadioGroup>
+                </FormControl>
 
                 <FormMessage />
               </FormItem>
@@ -109,31 +163,39 @@ const PickVariationForm = ({ newSizes, newColors, productId }) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Select Size</FormLabel>
-                <Select
-                  onValueChange={(e) => {
-                    field.onChange(e);
-                    setSize(e);
-                    getSingleVariation(e, color);
-                  }}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Size" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {newSizes.map((size) => (
-                      <SelectItem
-                        value={size.id}
-                        key={size.id}
-                        className="uppercase"
-                      >
-                        {size.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex flex-col space-y-1"
+                  >
+                    <div className="grid grid-cols-5 px-10 py-2">
+                      {sizes.map((size) => (
+                        <FormItem
+                          className={`flex justify-center items-center `}
+                          key={size.id}
+                        >
+                          <FormControl>
+                            <RadioGroupItem
+                              value={getProductSizeId(sizes, size.name)}
+                              disabled={getProductSizes(newSizes, size.name)}
+                            />
+                          </FormControl>
+                          <FormLabel
+                            className={`font-normal p-4 border border-slate-300 ${
+                              getProductSizes(newSizes, size.name)
+                                ? "disabled"
+                                : "abled"
+                            }`}
+                            onClick={() => handleSizeSelection(size.id)}
+                          >
+                            {size.name}
+                          </FormLabel>
+                        </FormItem>
+                      ))}
+                    </div>
+                  </RadioGroup>
+                </FormControl>
 
                 <FormMessage />
               </FormItem>
@@ -145,14 +207,10 @@ const PickVariationForm = ({ newSizes, newColors, productId }) => {
           />
         </form>
       </Form>
-      {variation && (
+      {img && (
         <div>
-          <p className="uppercase my-2">quantity: {variation?.quantity} left</p>
-          <p className="uppercase my-2 text-blue-500">
-            price: {formatPrice(variation?.price)}
-          </p>
           <Image
-            src={variation?.images[0]?.url || logo}
+            src={img}
             width={200}
             height={200}
             alt="product variation image"
@@ -160,7 +218,16 @@ const PickVariationForm = ({ newSizes, newColors, productId }) => {
           />
         </div>
       )}
-      <div></div>
+      {variation && (
+        <div className="flex gap-2 my-4">
+          Quantity
+          {variation?.quantity > 3 ? (
+            <p className="font-bold">INSTOCK</p>
+          ) : (
+            <p className="text-red-500 uppercase">{variation?.quantity} left</p>
+          )}
+        </div>
+      )}
     </div>
   );
 };

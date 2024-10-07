@@ -13,7 +13,8 @@ export const incrementCartQuantity = async (formData, productId) => {
   }
   const data = results.data;
   const cart = (await getCart()) ?? (await createCart());
-
+  console.log("serveraction");
+  console.log(data.sizeId, data.colorId, productId);
   const productVariation = await prisma.productVariation.findFirst({
     where: {
       productId,

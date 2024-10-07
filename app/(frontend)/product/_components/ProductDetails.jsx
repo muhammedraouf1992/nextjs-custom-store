@@ -64,7 +64,7 @@ const ProductDetails = ({ product }) => {
           Terms & Conditions
         </AccordionTrigger>
         <AccordionContent>
-          For more info about terms and conditions, please visit our
+          For more info about terms and conditions, please visit our{" "}
           <Link href="/terms" className="text-blue-500">
             Terms and Conditions{" "}
           </Link>
@@ -80,7 +80,7 @@ const ProductDetails = ({ product }) => {
             <li>Free 14 days returns & exchange.</li>
             <li>
               {" "}
-              For more information about returns & exchange, please visit our
+              For more information about returns & exchange, please visit our{" "}
               <Link href="/terms" className="text-blue-500">
                 Returns Policy
               </Link>{" "}

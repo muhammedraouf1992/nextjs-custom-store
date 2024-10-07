@@ -72,8 +72,8 @@ export const addProductAction = async (formData) => {
           productId: product.id,
           sizeId: size.id,
           colorId: color.id,
-          price: Number(data.price), // Make sure to pass the correct price
-          quantity: Number(data.quantity), // Ensure valid quantity
+          price: Number(data.price),
+          quantity: Number(data.quantity),
         }));
       })
       .flat();

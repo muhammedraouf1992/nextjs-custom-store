@@ -113,8 +113,7 @@ const uploadProducts = async (parsedData) => {
                     url:
                       variation.variation_image ||
                       "https://res.cloudinary.com/dnh3uxlsu/image/upload/v1724837986/Untitled-design-2022-01-26T113456.782_fbl9c2.jpg",
-                    description:
-                      row.productDetails.product_name + "image description",
+                    description: row.productDetails.name + "image description",
                   },
                 },
               };

@@ -23,6 +23,12 @@ const CartItem = ({ item }) => {
 
         <dl className="mt-0.5 space-y-px text-[14px] text-gray-600">
           <div>
+            <dt className="inline">Price:</dt>
+            <dd className="inline">
+              {formatPrice(item.productVariation.price)}
+            </dd>
+          </div>
+          <div>
             <dt className="inline">Size:</dt>
             <dd className="inline">{item.productVariation.size.name}</dd>
           </div>

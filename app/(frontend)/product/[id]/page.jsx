@@ -19,15 +19,25 @@ const SingleProduct = async ({ params }) => {
         include: {
           size: true,
           color: true,
+          images: true,
         },
       },
     },
   });
+  const uniqueImages = Object.values(
+    product.variations.reduce((acc, item) => {
+      if (!acc[item.colorId]) {
+        acc[item.colorId] = item;
+      }
+      return acc;
+    }, {})
+  );
 
-  // Extract unique colors
-  const uniqueColors = Array.from(
-    new Set(product.variations.map((vari) => JSON.stringify(vari.color)))
-  ).map((color) => JSON.parse(color));
+  console.log("unique images");
+  console.log(uniqueImages);
+
+  const colors = await prisma.color.findMany({});
+  const sizes = await prisma.size.findMany({});
 
   // Extract unique sizes
   const uniqueSizes = Array.from(
@@ -50,8 +60,10 @@ const SingleProduct = async ({ params }) => {
 
         <PickVariationForm
           newSizes={uniqueSizes}
-          newColors={uniqueColors}
+          uniqueImages={uniqueImages}
           productId={product.id}
+          colors={colors}
+          sizes={sizes}
         />
         <ProductDetails product={product} />
       </div>
