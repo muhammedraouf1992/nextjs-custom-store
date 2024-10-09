@@ -49,7 +49,8 @@ const SubCategoryPage = async ({ params, searchParams }) => {
 
   const countPromise = prisma.product.count({
     where: {
-      categoryId: params.id, // Filter by category ID
+      categoryId: params.id,
+      subCategoryId: params.subCategoryId,
       variations: {
         every: {
           // Ensure that every variation matches all the filters
@@ -73,7 +74,8 @@ const SubCategoryPage = async ({ params, searchParams }) => {
     productsPromise,
     countPromise,
   ]);
-
+  console.log(products);
+  console.log(totalCount);
   const filteredProducts = products?.filter(
     (product) => product.variations.length > 0
   );

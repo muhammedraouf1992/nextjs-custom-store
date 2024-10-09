@@ -92,44 +92,11 @@
   text-align: center;
   font-size: 18px;
   background: #fff;
-
-  /* Center slide text vertically */
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.swiper-slide {
-  background-size: cover;
-  background-position: center;
-}
 
-.mySwiper2 {
-  height: 80%;
-  width: 100%;
-}
-
-.mySwiper.styles {
-  height: 20%;
-  box-sizing: border-box;
-  padding: 10px 0;
-}
-
-.mySwiper.styles .swiper-slide {
-  width: 25%;
-  height: 100%;
-  opacity: 1;
-}
-
-.mySwiper.styles .swiper-slide-thumb-active {
-  opacity: 1;
-}
-
-.swiper-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
 input[checked] ~ label {
   @apply bg-blue-500;
 }
@@ -144,4 +111,59 @@ button[role="radio"] {
 }
 .abled {
   @apply cursor-pointer hover:bg-blue-500;
+}
+/* product page slider */
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.swiper {
+  width: 100%;
+  height: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.swiper-slide {
+  background-size: cover;
+  background-position: center;
+}
+
+.mySwiper2 {
+  height: 70%;
+  width: 100%;
+}
+
+.mySwiper3 {
+  height: 20%;
+  box-sizing: border-box;
+  padding: 10px 0;
+}
+
+.mySwiper3 .swiper-slide {
+  width: 25%;
+  height: 100%;
+  opacity: 0.4;
+}
+
+.mySwiper3 .swiper-slide-thumb-active {
+  opacity: 1;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.swiper-pagination-bullets .swiper-pagination-bullet-active {
+  @apply bg-blue-500;
 }

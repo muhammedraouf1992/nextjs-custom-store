@@ -2,7 +2,7 @@ import { formatPrice } from "@/lib/utils";
 import prisma from "@/prismaClient";
 
 import React from "react";
-
+import parse from "html-react-parser";
 import PickVariationForm from "../_components/PickVariationForm";
 
 import ProductSlider from "../../_components/ProductSlider";
@@ -33,9 +33,6 @@ const SingleProduct = async ({ params }) => {
     }, {})
   );
 
-  console.log("unique images");
-  console.log(uniqueImages);
-
   const colors = await prisma.color.findMany({});
   const sizes = await prisma.size.findMany({});
 
@@ -45,7 +42,7 @@ const SingleProduct = async ({ params }) => {
   ).map((size) => JSON.parse(size));
 
   return (
-    <div className="container grid grid-cols-1 lg:grid-cols-2 gap-10 py-10">
+    <div className="container grid grid-cols-1 lg:grid-cols-2 gap-10 py-10 justify-start items-start">
       <div>
         <ProductSlider product={product} />
       </div>
@@ -56,7 +53,8 @@ const SingleProduct = async ({ params }) => {
         <p className="text-blue-500 font-bold">
           {formatPrice(product.variations[0].price)}
         </p>
-        <p className="text-slate-600 mt-2">{product.description}</p>
+
+        <div className="text-slate-600 mt-2">{parse(product.description)}</div>
 
         <PickVariationForm
           newSizes={uniqueSizes}

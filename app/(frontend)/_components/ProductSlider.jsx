@@ -23,7 +23,7 @@ const ProductSlider = ({ product }) => {
         pagination={true}
         thumbs={{ swiper: thumbsSwiper }}
         modules={[FreeMode, Pagination, Thumbs]}
-        className="mySwiper2"
+        className="mySwiper2 mb-10"
       >
         {product.images.map((image) => (
           <SwiperSlide key={image.id}>
@@ -46,7 +46,7 @@ const ProductSlider = ({ product }) => {
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Thumbs]}
-        className="mySwiper styles opacity-40"
+        className="mySwiper3"
       >
         {product.images.map((image) => (
           <SwiperSlide key={image.id}>
