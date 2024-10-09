@@ -33,7 +33,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { addProductSchema, editProductSchema } from "@/lib/validationSchema";
+import { editProductSchema } from "@/lib/validationSchema";
 import Link from "next/link";
 import Image from "next/image";
 import { XIcon } from "lucide-react";
@@ -41,11 +41,13 @@ import { deleteProductImage } from "../actions/deleteProductImage";
 import { editProductAction } from "../actions/editProductActions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { fetchSubcategoriesAction } from "../add-product/fetchSubcategoriesAction";
 
-const EditProductForm = ({ categories, product }) => {
-  const [isPending, startTransition] = useTransition();
-  const [errors, setErrors] = useState();
+const EditProductForm = ({ categories, product, subcategories }) => {
+  const [newSubcategories, setSubcategories] = useState(subcategories);
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm({
     resolver: zodResolver(editProductSchema),
     defaultValues: {
@@ -53,18 +55,20 @@ const EditProductForm = ({ categories, product }) => {
       description: product.description || "",
       product_img: [], // Images need special handling
       categoryId: product.categoryId || "",
+      subCategoryId: product.subCategoryId || "",
       is_available: product.is_available || false,
       is_featured: product.is_featured || false,
       is_newArrival: product.is_newArrival || false,
       is_bestSeller: product.is_bestSeller || false,
     },
   });
-
+  const { reset, setValue } = form;
   const onSubmit = (data) => {
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("description", data.description);
     formData.append("categoryId", data.categoryId);
+    formData.append("subCategoryId", data.subCategoryId);
     formData.append("is_available", Boolean(data.is_available));
     formData.append("is_bestSeller", Boolean(data.is_bestSeller));
     formData.append("is_featured", Boolean(data.is_featured));
@@ -76,7 +80,6 @@ const EditProductForm = ({ categories, product }) => {
       });
     }
 
-    // Proceed with the action or API call
     startTransition(async () => {
       const response = await editProductAction(formData, product.id);
 
@@ -96,6 +99,12 @@ const EditProductForm = ({ categories, product }) => {
     startTransition(async () => {
       await deleteProductImage(image);
     });
+  };
+  const handleCategoryChange = async (value) => {
+    setValue("categoryId", value);
+    const fetchedSubcategories = await fetchSubcategoriesAction(value);
+    setSubcategories(fetchedSubcategories);
+    reset({ ...form.getValues(), subCategoryId: "" });
   };
   return (
     <Form {...form}>
@@ -123,12 +132,7 @@ const EditProductForm = ({ categories, product }) => {
             <FormItem>
               <FormLabel>Product description</FormLabel>
               <FormControl>
-                <Textarea
-                  placeholder="add product description"
-                  {...field}
-                  //   {...moreFields}
-                  //   value={value || product.description}
-                />
+                <Textarea placeholder="add product description" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -197,7 +201,10 @@ const EditProductForm = ({ categories, product }) => {
             <FormItem>
               <FormLabel>Category</FormLabel>
               <Select
-                onValueChange={field.onChange}
+                onValueChange={(value) => {
+                  field.onChange(value);
+                  handleCategoryChange(value);
+                }}
                 defaultValue={product.categoryId}
               >
                 <FormControl>
@@ -217,6 +224,33 @@ const EditProductForm = ({ categories, product }) => {
                 You can manage categories in the{" "}
                 <Link href="/admin/category/add-category">category page</Link>.
               </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Sub Category Select */}
+        <FormField
+          control={form.control}
+          name="subCategoryId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Sub category</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Subcategory" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {newSubcategories?.map((subCategory) => (
+                    <SelectItem value={subCategory.id} key={subCategory.id}>
+                      {subCategory.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
               <FormMessage />
             </FormItem>
           )}

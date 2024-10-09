@@ -10,12 +10,18 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { MenuIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "@/public/next.svg";
 import { cn } from "@/lib/utils";
-const MobileMenu = ({ category, pathname }) => {
+const MobileMenu = ({ category, pathname, subCategory }) => {
   return (
     <div className="mobileMenu">
       <Sheet>
@@ -31,33 +37,48 @@ const MobileMenu = ({ category, pathname }) => {
               <Image src={logo} width={"100"} height={"100"} alt="logo" />
             </SheetTitle>
             <SheetDescription asChild>
-              <div className="font-bold flex flex-col py-2 mt-4 items-start">
+              <div className=" flex flex-col py-2 mt-4 items-start">
                 <SheetClose asChild>
-                  <Link
-                    className={cn(
-                      "p-4  hover:bg-secondary hover:text-secondary-foreground focus-visible:bg-secondary focus-visible:text-secondary-foreground",
-                      pathname == "/" && "bg-primary-foreground text-primary"
-                    )}
-                    href={"/"}
-                  >
-                    Home
-                  </Link>
+                  <div className="w-full border-b border-1 border-b-[hsl(var(--border))]">
+                    <Link className="hover:underline py-4 block" href={"/"}>
+                      Home
+                    </Link>
+                  </div>
                 </SheetClose>
 
-                {category.map((c) => (
-                  <SheetClose asChild key={c.id}>
-                    <Link
-                      className={cn(
-                        "p-4 capitalize hover:bg-secondary hover:text-secondary-foreground focus-visible:bg-secondary focus-visible:text-secondary-foreground",
-                        pathname == "/category" &&
-                          "bg-primary-foreground text-primary"
+                {category.map((c) => {
+                  const thisCategorySubcategories = subCategory.filter(
+                    (sub) => sub.categoryId == c.id
+                  );
+
+                  return (
+                    <div key={c.id} className="w-full ">
+                      {thisCategorySubcategories.length > 0 ? (
+                        <Accordion type="single" collapsible>
+                          <AccordionItem value="item-1">
+                            <AccordionTrigger>{c.name}</AccordionTrigger>
+                            {thisCategorySubcategories.map((sub) => (
+                              <AccordionContent key={sub.id}>
+                                <SheetClose asChild>
+                                  <Link href="/">{sub.name}</Link>
+                                </SheetClose>
+                              </AccordionContent>
+                            ))}
+                          </AccordionItem>
+                        </Accordion>
+                      ) : (
+                        <SheetClose asChild>
+                          <Link
+                            href="/"
+                            className="hover:underline py-4 block border-b border-1 border-b-[hsl(var(--border))]"
+                          >
+                            {c.name}
+                          </Link>
+                        </SheetClose>
                       )}
-                      href={"/category/" + c.id}
-                    >
-                      {c.name}
-                    </Link>
-                  </SheetClose>
-                ))}
+                    </div>
+                  );
+                })}
               </div>
             </SheetDescription>
           </SheetHeader>

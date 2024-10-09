@@ -53,6 +53,7 @@ export const editProductAction = async (formData, productId) => {
         },
         data: {
           categoryId: data.categoryId,
+          subCategoryId: data.subCategoryId,
           name: data.name,
           description: data.description,
           is_available: data.is_available,

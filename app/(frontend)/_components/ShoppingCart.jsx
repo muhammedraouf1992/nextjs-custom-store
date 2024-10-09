@@ -20,7 +20,7 @@ const ShoppingCart = ({ cart }) => {
     <div>
       <Sheet>
         <SheetTrigger aria-label="cart">
-          <ShoppingBagIcon />
+          <ShoppingBagIcon className="text-primary-foreground" />
         </SheetTrigger>
         <SheetContent>
           <SheetHeader>

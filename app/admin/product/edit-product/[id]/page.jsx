@@ -6,6 +6,7 @@ import VariableProducts from "../../_components/VariableProducts";
 import PageHeader from "@/components/layout/PageHeader";
 const EditProductPage = async ({ params }) => {
   const categories = await prisma.category.findMany({});
+
   const product = await prisma.product.findUnique({
     where: {
       id: params.id,
@@ -21,7 +22,12 @@ const EditProductPage = async ({ params }) => {
       },
     },
   });
-
+  const subcategories = await prisma.subCategory.findMany({
+    where: {
+      categoryId: product.categoryId,
+    },
+  });
+  console.log(subcategories);
   return (
     <>
       <PageHeader>edit product </PageHeader>
@@ -32,7 +38,11 @@ const EditProductPage = async ({ params }) => {
             <TabsTrigger value="variables">variants</TabsTrigger>
           </TabsList>
           <TabsContent value="edit">
-            <EditProductForm categories={categories} product={product} />
+            <EditProductForm
+              categories={categories}
+              product={product}
+              subcategories={subcategories}
+            />
           </TabsContent>
           <TabsContent value="variables">
             <VariableProducts product={product} />

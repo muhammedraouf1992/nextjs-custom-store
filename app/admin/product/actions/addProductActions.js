@@ -50,6 +50,7 @@ export const addProductAction = async (formData) => {
     const product = await prisma.product.create({
       data: {
         categoryId: data.categoryId,
+        subCategoryId: data.subCategoryId,
         name: data.name,
         description: data.description,
         is_available: data.is_available,

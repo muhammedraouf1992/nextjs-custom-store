@@ -57,6 +57,7 @@ const ProductTable = async () => {
                     height={100}
                     width={100}
                     className="rounded-full"
+                    alt="product image"
                   />
                 </TableCell>
                 <TableCell>

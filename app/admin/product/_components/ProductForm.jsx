@@ -34,14 +34,17 @@ import { addProductSchema } from "@/lib/validationSchema";
 import Link from "next/link";
 import { addProductAction } from "../actions/addProductActions";
 import { toast } from "sonner";
+import { fetchSubcategoriesAction } from "../add-product/fetchSubcategoriesAction";
 
 const ProductForm = ({ categories, sizes, colors }) => {
   const [isPending, startTransition] = useTransition();
   const [errors, setErrors] = useState([]);
-
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [subcategories, setSubcategories] = useState(null);
   const [newColors, setColors] = useState([]);
   const [newSizes, setSizes] = useState([]);
-
+  console.log(selectedCategory);
+  console.log(subcategories);
   const form = useForm({
     resolver: zodResolver(addProductSchema),
     defaultValues: {
@@ -65,6 +68,9 @@ const ProductForm = ({ categories, sizes, colors }) => {
     formData.append("name", data.name);
     formData.append("description", data.description);
     formData.append("categoryId", data.categoryId);
+    data.subCategoryId
+      ? formData.append("subCategoryId", data.subCategoryId)
+      : formData.append("subCategoryId", null);
     formData.append("quantity", data.quantity);
     formData.append("price", data.price);
     formData.append("is_available", Boolean(data.is_available));
@@ -154,7 +160,16 @@ const ProductForm = ({ categories, sizes, colors }) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Category</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                onValueChange={(value) => {
+                  field.onChange(value);
+                  startTransition(async () => {
+                    const subCategories = await fetchSubcategoriesAction(value);
+                    setSubcategories(subCategories);
+                  });
+                }}
+                defaultValue={field.value}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select Category" />
@@ -182,6 +197,38 @@ const ProductForm = ({ categories, sizes, colors }) => {
             </FormItem>
           )}
         />
+
+        {/* Subcategory Select */}
+        {subcategories && (
+          <FormField
+            control={form.control}
+            name="subCategoryId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Subcategory</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Subcategory" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {subcategories?.map((subcategory) => (
+                      <SelectItem value={subcategory.id} key={subcategory.id}>
+                        {subcategory.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
 
         {/* Checkbox Fields */}
         <div className="grid grid-cols-2 gap-10">

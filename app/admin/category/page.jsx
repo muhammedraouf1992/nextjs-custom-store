@@ -10,9 +10,14 @@ const CategoryPage = async () => {
     <>
       <div className="flex justify-between items-center my-5">
         <PageHeader>Category</PageHeader>
-        <Link href="/admin/category/add-category" className={buttonVariants()}>
-          Add new Category
-        </Link>
+        <div className="flex gap-2">
+          <Link
+            href="/admin/category/add-category"
+            className={buttonVariants({ size: "sm" })}
+          >
+            Add Category
+          </Link>
+        </div>
       </div>
 
       <CategoryTable />
