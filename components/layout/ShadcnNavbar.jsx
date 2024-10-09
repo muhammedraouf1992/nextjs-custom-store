@@ -28,7 +28,9 @@ export function NavigationMenuDemo({ category, subCategory }) {
             <NavigationMenuItem key={cat.id}>
               {thisCategorySubcategories.length > 0 ? (
                 <>
-                  <NavigationMenuTrigger>{cat.name}</NavigationMenuTrigger>
+                  <NavigationMenuTrigger>
+                    <Link href={`/category/${cat.id}`}>{cat.name}</Link>
+                  </NavigationMenuTrigger>
 
                   <NavigationMenuContent>
                     <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
@@ -36,7 +38,7 @@ export function NavigationMenuDemo({ category, subCategory }) {
                         <ListItem
                           key={component.id}
                           title={component.name}
-                          href={"/"}
+                          href={`/category/${cat.id}/${component.id}`}
                         >
                           {component.description}
                         </ListItem>
@@ -45,7 +47,7 @@ export function NavigationMenuDemo({ category, subCategory }) {
                   </NavigationMenuContent>
                 </>
               ) : (
-                <Link href="/" legacyBehavior passHref>
+                <Link href={`/category/${cat.id}`} legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     {cat.name}
                   </NavigationMenuLink>
