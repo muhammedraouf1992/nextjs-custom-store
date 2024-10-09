@@ -25,9 +25,9 @@ export function NavigationMenuDemo({ category, subCategory }) {
           );
 
           return (
-            <>
+            <NavigationMenuItem key={cat.id}>
               {thisCategorySubcategories.length > 0 ? (
-                <NavigationMenuItem key={cat.id}>
+                <>
                   <NavigationMenuTrigger>{cat.name}</NavigationMenuTrigger>
 
                   <NavigationMenuContent>
@@ -43,19 +43,15 @@ export function NavigationMenuDemo({ category, subCategory }) {
                       ))}
                     </ul>
                   </NavigationMenuContent>
-                </NavigationMenuItem>
+                </>
               ) : (
-                <NavigationMenuItem>
-                  <Link href="/" legacyBehavior passHref>
-                    <NavigationMenuLink
-                      className={navigationMenuTriggerStyle()}
-                    >
-                      {cat.name}
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
+                <Link href="/" legacyBehavior passHref>
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    {cat.name}
+                  </NavigationMenuLink>
+                </Link>
               )}
-            </>
+            </NavigationMenuItem>
           );
         })}
       </NavigationMenuList>
