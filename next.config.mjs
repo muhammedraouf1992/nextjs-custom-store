@@ -9,6 +9,7 @@ const nextConfig = {
       { hostname: "lh3.googleusercontent.com" },
       { hostname: "ashleywildegroup.com" },
       { hostname: "en-sa.sssports.com" },
+      { hostname: "media.zid.store" },
     ],
   },
 };
