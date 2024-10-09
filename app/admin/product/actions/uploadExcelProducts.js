@@ -35,7 +35,9 @@ const uploadProducts = async (parsedData) => {
       (c) => c.name.toLowerCase() == row.category_name?.toLowerCase()
     );
     const filteredSubcategory = subCategory.find(
-      (c) => c.name.toLowerCase() == row.subcategory_name?.toLowerCase()
+      (c) =>
+        c.name.toLowerCase() == row.subcategory_name?.toLowerCase() &&
+        c.categoryId == filteredCategory.id
     );
     const filteredColor = colors.find(
       (c) => c.name.toLowerCase() == row.color.toLowerCase()
