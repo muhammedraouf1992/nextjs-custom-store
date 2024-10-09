@@ -24,6 +24,7 @@ export const uploadExcelProducts = async (formData) => {
 const uploadProducts = async (parsedData) => {
   const products = [];
   const category = await prisma.category.findMany({});
+  const subCategory = await prisma.category.findMany({});
   const colors = await prisma.color.findMany({});
   const sizes = await prisma.size.findMany({});
 
@@ -31,6 +32,9 @@ const uploadProducts = async (parsedData) => {
     if (category) {
     }
     const filteredCategory = category.find(
+      (c) => c.name.toLowerCase() == row.category_name?.toLowerCase()
+    );
+    const filteredSubcategory = subCategory.find(
       (c) => c.name.toLowerCase() == row.category_name?.toLowerCase()
     );
     const filteredColor = colors.find(
@@ -57,6 +61,7 @@ const uploadProducts = async (parsedData) => {
           name: row.product_name,
           description: row.product_description,
           categoryId: filteredCategory.id,
+          subCategory: filteredSubcategory.id,
           is_available: row.available,
           is_featured: row.featured,
           is_bestSeller: row.best_seller,
@@ -89,6 +94,7 @@ const uploadProducts = async (parsedData) => {
           name: row.productDetails.name,
           description: row.productDetails.description,
           categoryId: row.productDetails.categoryId,
+          subCategory: row.productDetails.subCategoryId,
           is_available: row.productDetails.is_available,
           is_featured: row.productDetails.is_featured,
           is_bestSeller: row.productDetails.is_bestSeller,
