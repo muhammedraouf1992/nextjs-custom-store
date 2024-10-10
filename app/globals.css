@@ -69,8 +69,8 @@
     @apply bg-background text-foreground;
   }
 }
-.swiper-button-prev::after,
-.swiper-button-next::after {
+.swiper .swiper-button-prev::after,
+.swiper .swiper-button-next::after {
   font-size: 18px;
   font-weight: 900;
   background-color: white;
