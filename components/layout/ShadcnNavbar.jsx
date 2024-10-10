@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
-
+import parse from "html-react-parser";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -40,7 +40,7 @@ export function NavigationMenuDemo({ category, subCategory }) {
                           title={component.name}
                           href={`/category/${cat.id}/${component.id}`}
                         >
-                          {component.description}
+                          {parse(component.short_description)}
                         </ListItem>
                       ))}
                     </ul>

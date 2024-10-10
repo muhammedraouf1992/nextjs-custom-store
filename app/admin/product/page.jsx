@@ -3,7 +3,29 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import ProductTable from "./_components/ProductTable";
 import PageHeader from "@/components/layout/PageHeader";
-const ProductsPage = () => {
+import prisma from "@/prismaClient";
+import PaginationComponent from "@/app/(frontend)/_components/PaginationComponent";
+const ProductsPage = async ({ searchParams }) => {
+  const pageSize = 10;
+
+  const page = parseInt(searchParams.page) || 1;
+
+  const productsPromise = await prisma.product.findMany({
+    include: {
+      images: true,
+    },
+    skip: (page - 1) * pageSize,
+    take: pageSize,
+  });
+
+  const totalCountPromise = await prisma.product.count({});
+
+  const [products, totalCount] = await Promise.all([
+    productsPromise,
+    totalCountPromise,
+  ]);
+  console.log("page", page);
+  products.forEach((p) => console.log(p.name));
   return (
     <>
       <div className="flex justify-between items-center my-5">
@@ -20,7 +42,12 @@ const ProductsPage = () => {
           </Button>
         </div>
       </div>
-      <ProductTable />
+      <ProductTable products={products} />
+      <PaginationComponent
+        page={page}
+        pageSize={pageSize}
+        totalCount={totalCount}
+      />
     </>
   );
 };

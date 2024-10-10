@@ -3,6 +3,7 @@ import * as XLSX from "xlsx";
 import { uploadExcelSheet } from "@/lib/validationSchema";
 import prisma from "@/prismaClient";
 import { revalidatePath } from "next/cache";
+import { randomUUID } from "crypto";
 
 export const uploadExcelProducts = async (formData) => {
   const newData = Object.fromEntries(formData.entries());
@@ -31,6 +32,7 @@ const uploadProducts = async (parsedData) => {
   parsedData.forEach((row) => {
     if (category) {
     }
+    const filteredSlug = row.product_slug?.replace(/\s+/g, "-");
     const filteredCategory = category.find(
       (c) => c.name.toLowerCase() == row.category_name?.toLowerCase()
     );
@@ -61,6 +63,8 @@ const uploadProducts = async (parsedData) => {
       products.push({
         productDetails: {
           name: row.product_name,
+          slug: filteredSlug + "_" + randomUUID(),
+          short_description: row.product_shortdescription,
           description: row.product_description,
           categoryId: filteredCategory.id,
           subCategoryId: filteredSubcategory.id,
@@ -94,6 +98,8 @@ const uploadProducts = async (parsedData) => {
       await prisma.product.create({
         data: {
           name: row.productDetails.name,
+          slug: row.productDetails.slug,
+          short_description: row.productDetails.short_description,
           description: row.productDetails.description,
           categoryId: row.productDetails.categoryId,
           subCategoryId: row.productDetails.subCategoryId,

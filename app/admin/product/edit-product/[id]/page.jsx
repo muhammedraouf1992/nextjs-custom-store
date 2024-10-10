@@ -27,7 +27,7 @@ const EditProductPage = async ({ params }) => {
       categoryId: product.categoryId,
     },
   });
-  console.log(subcategories);
+
   return (
     <>
       <PageHeader>edit product </PageHeader>

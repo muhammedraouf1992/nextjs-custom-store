@@ -8,7 +8,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import parse from "html-react-parser";
-import prisma from "@/prismaClient";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -17,14 +16,7 @@ import { Button } from "@/components/ui/button";
 import DeleteProduct from "./DeleteProduct";
 import { truncate } from "@/lib/utils";
 
-const ProductTable = async () => {
-  const products = await prisma.product.findMany({
-    orderBy: { createdAt: "desc" },
-    include: {
-      images: true,
-    },
-  });
-
+const ProductTable = async ({ products }) => {
   return (
     <>
       {products.length > 0 ? (

@@ -54,7 +54,9 @@ const SingleProduct = async ({ params }) => {
           {formatPrice(product.variations[0].price)}
         </p>
 
-        <div className="text-slate-600 mt-2">{parse(product.description)}</div>
+        <div className="text-slate-600 mt-2">
+          {parse(product.short_description)}
+        </div>
 
         <PickVariationForm
           newSizes={uniqueSizes}
