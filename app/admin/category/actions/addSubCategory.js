@@ -6,7 +6,6 @@ import prisma from "@/prismaClient";
 import { revalidatePath } from "next/cache";
 
 export const addSubCategoryAction = async (formData, categoryId) => {
-  console.log(formData);
   const newData = Object.fromEntries(formData.entries());
 
   const results = addSubCategorySchema.safeParse(newData);
@@ -21,6 +20,8 @@ export const addSubCategoryAction = async (formData, categoryId) => {
   await prisma.subCategory.create({
     data: {
       name: data.name,
+      slug: data.slug,
+      short_description: data.short_description,
       description: data.description,
       imgUrl: url,
       categoryId: categoryId,

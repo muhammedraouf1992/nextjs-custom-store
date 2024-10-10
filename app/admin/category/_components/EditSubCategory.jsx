@@ -21,22 +21,29 @@ import { editSubCategoryAction } from "../actions/editSubcategory";
 import { toast } from "sonner";
 
 const EditSubCategory = ({ subCategory, categoryId }) => {
+  console.log(subCategory);
   const [image, setImage] = useState(null);
   const [isPending, startTransition] = useTransition();
   const form = useForm({
     resolver: zodResolver(editSubCategorySchema),
     defaultValues: {
       name: subCategory.name,
+      slug: subCategory.slug,
+      short_description: subCategory.short_description,
       description: subCategory.description,
-      categoryId: subCategory.categoryId,
     },
   });
 
   const onSubmit = (data) => {
     const formData = new FormData();
+    const filteredSlug = data.slug?.replace(/\s+/g, "-");
     formData.append("name", data.name || subCategory.name);
+    formData.append("slug", filteredSlug || subCategory.slug);
+    formData.append(
+      "short_description",
+      data.short_description || subCategory.short_description
+    );
     formData.append("description", data.description || subCategory.description);
-    formData.append("categoryId", categoryId);
 
     if (image) {
       formData.append("subCategory_img", image); // Append new image file
@@ -62,6 +69,37 @@ const EditSubCategory = ({ subCategory, categoryId }) => {
               <FormLabel>SubCategory name</FormLabel>
               <FormControl>
                 <Input placeholder="add SubCategory name" {...field} />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="slug"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>SubCategory slug</FormLabel>
+              <FormControl>
+                <Input placeholder="add SubCategory slug" {...field} />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="short_description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>SubCategory short description</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="add SubCategory shortdescription"
+                  {...field}
+                />
               </FormControl>
 
               <FormMessage />

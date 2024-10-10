@@ -4,6 +4,7 @@ import { editProductSchema } from "@/lib/validationSchema";
 import prisma from "@/prismaClient";
 
 import { uploadImages } from "../../../../lib/imageActions";
+import { revalidatePath } from "next/cache";
 
 export const editProductAction = async (formData, productId) => {
   const booleanFields = [
@@ -35,7 +36,6 @@ export const editProductAction = async (formData, productId) => {
   );
   const results = editProductSchema.safeParse(newData);
   if (results.success === false) {
-    console.log(results.error.formErrors.fieldErrors);
     return results.error.formErrors.fieldErrors;
   }
   const data = results.data;
@@ -55,6 +55,8 @@ export const editProductAction = async (formData, productId) => {
           categoryId: data.categoryId,
           subCategoryId: data.subCategoryId,
           name: data.name,
+          slug: data.slug,
+          short_description: data.short_description,
           description: data.description,
           is_available: data.is_available,
           is_bestSeller: data.is_bestSeller,
@@ -76,7 +78,7 @@ export const editProductAction = async (formData, productId) => {
     });
 
     // If everything is successful
-    return { success: "product have been updated successfully" };
+    revalidatePath("/admin/product/edit-product/[id]", "page");
   } catch (error) {
     // Handle the error
     console.error(

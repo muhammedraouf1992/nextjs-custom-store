@@ -7,16 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import parse from "html-react-parser";
 import prisma from "@/prismaClient";
-import { MoreVertical } from "lucide-react";
+
 import Image from "next/image";
 import Link from "next/link";
 import DeleteCategory from "./DeleteCategory";
@@ -33,9 +26,6 @@ const CategoryTable = async () => {
           <TableCaption>A list of categories</TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead className="hidden md:table-cell capitalize">
-                Id
-              </TableHead>
               <TableHead className="">name</TableHead>
               <TableHead className="hidden md:table-cell">
                 description
@@ -47,14 +37,11 @@ const CategoryTable = async () => {
           <TableBody>
             {categories.map((category) => (
               <TableRow key={category.id}>
-                <TableCell className="font-medium capitalize hidden md:table-cell">
-                  {category.id}
-                </TableCell>
                 <TableCell className="font-medium capitalize">
                   {category.name}
                 </TableCell>
                 <TableCell className="hidden md:table-cell">
-                  {category.description}
+                  {parse(category.short_description)}
                 </TableCell>
 
                 <TableCell className="text-right hidden md:table-cell">

@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -26,6 +27,8 @@ const CategoryForm = () => {
     resolver: zodResolver(addCategorySchema),
     defaultValues: {
       name: "",
+      slug: "",
+      short_description: "",
       description: "",
       category_img: "",
     },
@@ -33,9 +36,11 @@ const CategoryForm = () => {
 
   const onSubmit = async (data) => {
     const formData = new FormData();
+    const filteredSlug = data.slug.replace(/\s+/g, "-");
     formData.append("name", data.name);
+    formData.append("slug", filteredSlug);
     formData.append("description", data.description);
-
+    formData.append("short_description", data.short_description);
     formData.append("category_img", data.category_img);
 
     startTransition(async () => {
@@ -54,6 +59,36 @@ const CategoryForm = () => {
               <FormLabel>Category name</FormLabel>
               <FormControl>
                 <Input placeholder="add category name" {...field} />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="slug"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Category slug</FormLabel>
+              <FormControl>
+                <Input placeholder="add category slug" {...field} />
+              </FormControl>
+              <FormDescription>
+                that is what will appear in the url
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="short_description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>short description</FormLabel>
+              <FormControl>
+                <Input placeholder="add short_description" {...field} />
               </FormControl>
 
               <FormMessage />
@@ -105,4 +140,3 @@ const CategoryForm = () => {
 };
 
 export default CategoryForm;
-// show loading and errors

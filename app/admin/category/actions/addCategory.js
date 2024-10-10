@@ -20,6 +20,8 @@ export const addCategoryAction = async (formData) => {
   await prisma.category.create({
     data: {
       name: data.name,
+      slug: data.slug,
+      short_description: data.short_description,
       description: data.description,
       imgUrl: url,
     },

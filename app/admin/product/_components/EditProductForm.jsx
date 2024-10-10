@@ -40,18 +40,20 @@ import { XIcon } from "lucide-react";
 import { deleteProductImage } from "../actions/deleteProductImage";
 import { editProductAction } from "../actions/editProductActions";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+
 import { fetchSubcategoriesAction } from "../add-product/fetchSubcategoriesAction";
 
 const EditProductForm = ({ categories, product, subcategories }) => {
   const [newSubcategories, setSubcategories] = useState(subcategories);
-  const router = useRouter();
+
   const [isPending, startTransition] = useTransition();
 
   const form = useForm({
     resolver: zodResolver(editProductSchema),
     defaultValues: {
       name: product.name || "",
+      slug: product.slug || "",
+      short_description: product.short_description || "",
       description: product.description || "",
       product_img: [], // Images need special handling
       categoryId: product.categoryId || "",
@@ -65,7 +67,10 @@ const EditProductForm = ({ categories, product, subcategories }) => {
   const { reset, setValue } = form;
   const onSubmit = (data) => {
     const formData = new FormData();
+    const filteredSlug = data.slug?.replace(/\s+/g, "-");
     formData.append("name", data.name);
+    formData.append("slug", filteredSlug);
+    formData.append("short_description", data.short_description);
     formData.append("description", data.description);
     formData.append("categoryId", data.categoryId);
     formData.append("subCategoryId", data.subCategoryId);
@@ -81,18 +86,8 @@ const EditProductForm = ({ categories, product, subcategories }) => {
     }
 
     startTransition(async () => {
-      const response = await editProductAction(formData, product.id);
-
-      if (!response?.success) {
-        setErrors(response?.error);
-
-        toast.error(response?.error || "Failed to update product");
-      } else {
-        toast.success(
-          response?.message || "Product has been updated successfully"
-        );
-        router.push("/admin/product");
-      }
+      await editProductAction(formData, product.id);
+      toast("product has been edited successfully");
     });
   };
   const handleDelete = (image) => {
@@ -118,6 +113,32 @@ const EditProductForm = ({ categories, product, subcategories }) => {
               <FormLabel>Product name</FormLabel>
               <FormControl>
                 <Input placeholder="add product name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="slug"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Product slug</FormLabel>
+              <FormControl>
+                <Input placeholder="add product slug" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="short_description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Product short description</FormLabel>
+              <FormControl>
+                <Input placeholder="add product short description" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

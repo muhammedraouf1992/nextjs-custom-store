@@ -38,7 +38,6 @@ export const addProductAction = async (formData) => {
   const results = addProductSchema.safeParse(newData);
 
   if (results.success === false) {
-    console.log(results.error.formErrors.fieldErrors);
     return { errors: results.error.formErrors.fieldErrors };
   }
   const data = results.data;
@@ -52,6 +51,8 @@ export const addProductAction = async (formData) => {
         categoryId: data.categoryId,
         subCategoryId: data.subCategoryId,
         name: data.name,
+        slug: data.slug,
+        short_description: data.short_description,
         description: data.description,
         is_available: data.is_available,
         is_bestSeller: data.is_bestSeller,

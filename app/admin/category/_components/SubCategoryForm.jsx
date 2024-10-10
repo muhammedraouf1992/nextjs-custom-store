@@ -31,6 +31,8 @@ const SubCategoryForm = ({ categoryId }) => {
     resolver: zodResolver(addSubCategorySchema),
     defaultValues: {
       name: "",
+      slug: "",
+      short_description: "",
       description: "",
       subCategory_img: "",
     },
@@ -38,7 +40,10 @@ const SubCategoryForm = ({ categoryId }) => {
 
   const onSubmit = (data) => {
     const formData = new FormData();
+    const filteredSlug = data.slug.replace(/\s+/g, "-");
     formData.append("name", data.name);
+    formData.append("slug", filteredSlug);
+    formData.append("short_description", data.short_description);
     formData.append("description", data.description);
     formData.append("subCategory_img", data.subCategory_img);
 
@@ -58,9 +63,9 @@ const SubCategoryForm = ({ categoryId }) => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>SubCategory name</FormLabel>
+                  <FormLabel>subcategory name</FormLabel>
                   <FormControl>
-                    <Input placeholder="add category name" {...field} />
+                    <Input placeholder="add subcategory name" {...field} />
                   </FormControl>
 
                   <FormMessage />
@@ -69,13 +74,27 @@ const SubCategoryForm = ({ categoryId }) => {
             />
             <FormField
               control={form.control}
-              name="description"
+              name="slug"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>SubCategory description</FormLabel>
+                  <FormLabel>subcategory slug</FormLabel>
                   <FormControl>
-                    <Textarea
-                      placeholder="add category description"
+                    <Input placeholder="add subcategory slug" {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="short_description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>subcategory short description</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="add subcategory short description"
                       {...field}
                     />
                   </FormControl>
@@ -86,6 +105,23 @@ const SubCategoryForm = ({ categoryId }) => {
             />
           </div>
           <div>
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>subcategory description</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="add subcategory description"
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="subCategory_img"

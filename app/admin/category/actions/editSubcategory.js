@@ -11,7 +11,6 @@ export const editSubCategoryAction = async (formData, subCategory) => {
   const results = editSubCategorySchema.safeParse(newData);
 
   if (results.success === false) {
-    console.log(results.error.formErrors.fieldErrors);
     return results.error.formErrors.fieldErrors;
   }
   const data = results.data;
@@ -37,6 +36,8 @@ export const editSubCategoryAction = async (formData, subCategory) => {
     where: { id: subCategory.id },
     data: {
       name: data.name,
+      slug: data.slug,
+      short_description: data.short_description,
       description: data.description,
 
       imgUrl: imageUrl,

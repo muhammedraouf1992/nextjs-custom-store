@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
+import parse from "html-react-parser";
 import prisma from "@/prismaClient";
 
 import Image from "next/image";
@@ -48,7 +48,7 @@ const ProductTable = async () => {
                   {truncate(product.name, 15)}
                 </TableCell>
                 <TableCell className="hidden md:table-cell">
-                  {product.description}
+                  {parse(product.short_description)}
                 </TableCell>
 
                 <TableCell className="hidden md:table-cell">

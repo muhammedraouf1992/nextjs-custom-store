@@ -5,6 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import parse from "html-react-parser";
 import { Calendar, HandCoinsIcon, Truck } from "lucide-react";
 import Link from "next/link";
 const ProductDetails = ({ product }) => {
@@ -14,7 +15,7 @@ const ProductDetails = ({ product }) => {
         <AccordionTrigger className="font-bold">
           Product Details
         </AccordionTrigger>
-        <AccordionContent>{product.description}</AccordionContent>
+        <AccordionContent>{parse(product.description)}</AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-2">
         <AccordionTrigger className="font-bold">

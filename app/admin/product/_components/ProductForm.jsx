@@ -39,16 +39,17 @@ import { fetchSubcategoriesAction } from "../add-product/fetchSubcategoriesActio
 const ProductForm = ({ categories, sizes, colors }) => {
   const [isPending, startTransition] = useTransition();
   const [errors, setErrors] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+
   const [subcategories, setSubcategories] = useState(null);
   const [newColors, setColors] = useState([]);
   const [newSizes, setSizes] = useState([]);
-  console.log(selectedCategory);
-  console.log(subcategories);
+
   const form = useForm({
     resolver: zodResolver(addProductSchema),
     defaultValues: {
       name: "",
+      slug: "",
+      short_description: "",
       description: "",
       product_img: [],
       categoryId: "",
@@ -65,7 +66,10 @@ const ProductForm = ({ categories, sizes, colors }) => {
 
   const onSubmit = (data) => {
     const formData = new FormData();
+    const filteredSlug = data.slug.replace(/\s+/g, "-");
     formData.append("name", data.name);
+    formData.append("slug", filteredSlug);
+    formData.append("short_description", data.short_description);
     formData.append("description", data.description);
     formData.append("categoryId", data.categoryId);
     data.subCategoryId
@@ -114,7 +118,32 @@ const ProductForm = ({ categories, sizes, colors }) => {
             </FormItem>
           )}
         />
-
+        <FormField
+          control={form.control}
+          name="slug"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Product slug</FormLabel>
+              <FormControl>
+                <Input placeholder="add product slug" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="short_description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Product short description</FormLabel>
+              <FormControl>
+                <Input placeholder="add product short description" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         {/* Description Field */}
         <FormField
           control={form.control}

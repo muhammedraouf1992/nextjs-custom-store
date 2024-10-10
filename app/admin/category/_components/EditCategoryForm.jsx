@@ -33,7 +33,13 @@ const EditCategoryForm = ({ category }) => {
   });
   const onSubmit = (data) => {
     const formData = new FormData();
+    const filteredSlug = data.slug?.replace(/\s+/g, "-");
     formData.append("name", data.name || category.name);
+    formData.append("slug", filteredSlug || category.slug);
+    formData.append(
+      "short_description",
+      data.short_description || category.short_description
+    );
     formData.append("description", data.description || category.description);
 
     if (image) {
@@ -63,6 +69,42 @@ const EditCategoryForm = ({ category }) => {
                   placeholder="add category name"
                   {...moreFields}
                   value={value || category.name}
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="slug"
+          render={({ field: { value, ...moreFields } }) => (
+            <FormItem>
+              <FormLabel>Category slug</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="add category slug"
+                  {...moreFields}
+                  value={value || category.slug}
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="short_description"
+          render={({ field: { value, ...moreFields } }) => (
+            <FormItem>
+              <FormLabel>short description</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="add category slug"
+                  {...moreFields}
+                  value={value || category.short_description}
                 />
               </FormControl>
 
