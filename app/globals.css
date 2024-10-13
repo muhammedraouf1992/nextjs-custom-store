@@ -98,7 +98,10 @@
 }
 
 input[checked] ~ label {
-  @apply bg-blue-500;
+  @apply bg-blue-500 border-t-2 border-t-red-500;
+}
+.color input[checked] ~ label {
+  @apply border-t-2 border-t-blue-500;
 }
 input[type="radio"] {
   display: none;
@@ -110,7 +113,7 @@ button[role="radio"] {
   @apply text-slate-200;
 }
 .abled {
-  @apply cursor-pointer hover:bg-blue-500;
+  @apply hover:bg-blue-500;
 }
 /* product page slider */
 

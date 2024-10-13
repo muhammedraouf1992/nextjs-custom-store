@@ -111,7 +111,7 @@ const PickVariationForm = ({
             control={form.control}
             name="colorId"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="py-2">
                 <FormLabel>Select color</FormLabel>
                 <FormControl>
                   <RadioGroup
@@ -119,7 +119,7 @@ const PickVariationForm = ({
                     defaultValue={field.value}
                     className="flex flex-col space-y-1"
                   >
-                    <div className="grid grid-cols-5 px-10 py-2">
+                    <div className="grid grid-cols-3 lg:grid-cols-5 color">
                       {uniqueImages.map((color) => (
                         <FormItem
                           className={`flex justify-center items-center`}
@@ -161,20 +161,17 @@ const PickVariationForm = ({
             control={form.control}
             name="sizeId"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="py-2">
                 <FormLabel>Select Size</FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
                     defaultValue={field.value}
-                    className="flex flex-col space-y-1"
+                    className=""
                   >
-                    <div className="grid grid-cols-5 px-10 py-2">
+                    <div className="grid grid-cols-3 lg:grid-cols-5 size">
                       {sizes.map((size) => (
-                        <FormItem
-                          className={`flex justify-center items-center `}
-                          key={size.id}
-                        >
+                        <FormItem className={``} key={size.id}>
                           <FormControl>
                             <RadioGroupItem
                               value={getProductSizeId(sizes, size.name)}
@@ -182,7 +179,7 @@ const PickVariationForm = ({
                             />
                           </FormControl>
                           <FormLabel
-                            className={`font-normal p-4 border border-slate-300 ${
+                            className={`font-normal !m-0 !p-0 w-full h-10 cursor-pointer flex justify-center items-center border border-blue-500/20  ${
                               getProductSizes(newSizes, size.name)
                                 ? "disabled"
                                 : "abled"
