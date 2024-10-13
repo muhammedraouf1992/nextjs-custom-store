@@ -24,8 +24,7 @@ const ProductsPage = async ({ searchParams }) => {
     productsPromise,
     totalCountPromise,
   ]);
-  console.log("page", page);
-  products.forEach((p) => console.log(p.name));
+
   return (
     <>
       <div className="flex justify-between items-center my-5">
