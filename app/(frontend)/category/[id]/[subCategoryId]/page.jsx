@@ -74,8 +74,7 @@ const SubCategoryPage = async ({ params, searchParams }) => {
     productsPromise,
     countPromise,
   ]);
-  console.log(products);
-  console.log(totalCount);
+
   const filteredProducts = products?.filter(
     (product) => product.variations.length > 0
   );

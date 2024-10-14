@@ -9,7 +9,7 @@ import "swiper/css/thumbs";
 
 import Image from "next/image";
 
-const ProductSlider = ({ product }) => {
+const ProductSlider = ({ sliderImages }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   return (
@@ -25,7 +25,7 @@ const ProductSlider = ({ product }) => {
         modules={[FreeMode, Pagination, Thumbs]}
         className="mySwiper2 mb-10"
       >
-        {product.images.map((image) => (
+        {sliderImages?.map((image) => (
           <SwiperSlide key={image.id}>
             <div>
               <Image
@@ -39,29 +39,31 @@ const ProductSlider = ({ product }) => {
           </SwiperSlide>
         ))}
       </Swiper>
-      <Swiper
-        onSwiper={setThumbsSwiper}
-        spaceBetween={10}
-        slidesPerView={4}
-        freeMode={true}
-        watchSlidesProgress={true}
-        modules={[FreeMode, Thumbs]}
-        className="mySwiper3"
-      >
-        {product.images.map((image) => (
-          <SwiperSlide key={image.id}>
-            <div>
-              <Image
-                src={image.url}
-                width={600}
-                height={600}
-                alt="product image"
-                className="rounded-3xl"
-              />
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      {sliderImages?.length > 1 && (
+        <Swiper
+          onSwiper={setThumbsSwiper}
+          spaceBetween={10}
+          slidesPerView={4}
+          freeMode={true}
+          watchSlidesProgress={true}
+          modules={[FreeMode, Thumbs]}
+          className="mySwiper3"
+        >
+          {sliderImages?.map((image) => (
+            <SwiperSlide key={image.id}>
+              <div>
+                <Image
+                  src={image.url}
+                  width={600}
+                  height={600}
+                  alt="product image"
+                  className="rounded-3xl"
+                />
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      )}
     </>
   );
 };

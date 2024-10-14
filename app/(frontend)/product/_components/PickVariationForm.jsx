@@ -24,7 +24,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const PickVariationForm = ({
   newSizes,
-
+  setSliderImages,
   productId,
   colors,
   sizes,
@@ -46,7 +46,6 @@ const PickVariationForm = ({
   });
 
   const handleSubmit = (data) => {
-    console.log(data);
     const formData = new FormData();
     formData.append("colorId", data.colorId);
     formData.append("sizeId", data.sizeId);
@@ -63,6 +62,7 @@ const PickVariationForm = ({
   const handleColorSelection = (colorId, imageUrl) => {
     setColor(colorId);
     setImg(imageUrl);
+    setSliderImages(imageUrl);
     if (ssize) {
       getSingleVariation(ssize, colorId); // Call when both are selected
     }
@@ -131,7 +131,8 @@ const PickVariationForm = ({
                               onClick={() =>
                                 handleColorSelection(
                                   color.color.id,
-                                  color.images[0].url
+                                  // color.images[0].url
+                                  color.images
                                 )
                               }
                             />
