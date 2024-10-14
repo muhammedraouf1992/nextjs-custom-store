@@ -30,8 +30,6 @@ const PickVariationForm = ({
   sizes,
   uniqueImages,
 }) => {
-  const [img, setImg] = useState(null);
-
   const [variation, setVariation] = useState(null);
   const [scolor, setColor] = useState(null);
   const [ssize, setSize] = useState(null);
@@ -61,7 +59,7 @@ const PickVariationForm = ({
 
   const handleColorSelection = (colorId, imageUrl) => {
     setColor(colorId);
-    setImg(imageUrl);
+
     setSliderImages(imageUrl);
     if (ssize) {
       getSingleVariation(ssize, colorId); // Call when both are selected
