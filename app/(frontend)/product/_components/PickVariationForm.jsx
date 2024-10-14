@@ -131,7 +131,7 @@ const PickVariationForm = ({
                               onClick={() =>
                                 handleColorSelection(
                                   color.color.id,
-                                  // color.images[0].url
+
                                   color.images
                                 )
                               }
@@ -205,17 +205,6 @@ const PickVariationForm = ({
           />
         </form>
       </Form>
-      {img && (
-        <div>
-          <Image
-            src={img}
-            width={200}
-            height={200}
-            alt="product variation image"
-            className="rounded-2xl"
-          />
-        </div>
-      )}
       {variation && (
         <div className="flex gap-2 my-4">
           Quantity

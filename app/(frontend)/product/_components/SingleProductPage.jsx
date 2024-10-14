@@ -18,7 +18,10 @@ const SingleProductPage = ({
   return (
     <div className="container grid grid-cols-1 lg:grid-cols-2 gap-10 py-10 justify-start items-start">
       <div>
-        <ProductSlider sliderImages={sliderImages} />
+        <ProductSlider
+          sliderImages={sliderImages}
+          allProductImages={product.images}
+        />
       </div>
 
       <div>

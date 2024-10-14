@@ -13,7 +13,7 @@ const AddToCartButton = ({ isPending, quantity }) => {
   return (
     <div className="flex items-center gap-2 mt-5">
       <Button disabled={isPending}>
-        AddToCartButton
+        Add To Cart{" "}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-5 w-5"

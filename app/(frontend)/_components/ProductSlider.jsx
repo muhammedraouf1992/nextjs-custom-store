@@ -9,9 +9,7 @@ import "swiper/css/thumbs";
 
 import Image from "next/image";
 
-const ProductSlider = ({ sliderImages }) => {
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
-
+const ProductSlider = ({ sliderImages, allProductImages }) => {
   return (
     <>
       <Swiper
@@ -21,7 +19,6 @@ const ProductSlider = ({ sliderImages }) => {
         }}
         spaceBetween={10}
         pagination={true}
-        thumbs={{ swiper: thumbsSwiper }}
         modules={[FreeMode, Pagination, Thumbs]}
         className="mySwiper2 mb-10"
       >
@@ -39,31 +36,20 @@ const ProductSlider = ({ sliderImages }) => {
           </SwiperSlide>
         ))}
       </Swiper>
-      {sliderImages?.length > 1 && (
-        <Swiper
-          onSwiper={setThumbsSwiper}
-          spaceBetween={10}
-          slidesPerView={4}
-          freeMode={true}
-          watchSlidesProgress={true}
-          modules={[FreeMode, Thumbs]}
-          className="mySwiper3"
-        >
-          {sliderImages?.map((image) => (
-            <SwiperSlide key={image.id}>
-              <div>
-                <Image
-                  src={image.url}
-                  width={600}
-                  height={600}
-                  alt="product image"
-                  className="rounded-3xl"
-                />
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      )}
+
+      <div className="grid grid-cols-2 gap-5">
+        {allProductImages.map((slider) => (
+          <div key={slider.id}>
+            <Image
+              src={slider.url}
+              width={600}
+              height={600}
+              alt="product image"
+              className="rounded-3xl"
+            />
+          </div>
+        ))}
+      </div>
     </>
   );
 };
