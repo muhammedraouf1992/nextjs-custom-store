@@ -130,7 +130,12 @@ const EditCategoryForm = ({ category }) => {
             </FormItem>
           )}
         />
-        <Image src={category.imgUrl} height={200} width={200} />
+        <Image
+          src={category.imgUrl}
+          height={200}
+          width={200}
+          alt="category image"
+        />
         <FormField
           control={form.control}
           name="category_img"

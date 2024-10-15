@@ -50,6 +50,7 @@ const CategoryTable = async () => {
                     height={100}
                     width={100}
                     className="rounded-full"
+                    alt="category image"
                   />
                 </TableCell>
                 <TableCell>
