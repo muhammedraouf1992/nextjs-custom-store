@@ -17,15 +17,18 @@ export const addCategoryAction = async (formData) => {
 
   const url = await uploadSingleImage(data.category_img);
 
-  await prisma.category.create({
-    data: {
-      name: data.name,
-      slug: data.slug,
-      short_description: data.short_description,
-      description: data.description,
-      imgUrl: url,
-    },
-  });
-
-  redirect("/admin/category");
+  try {
+    await prisma.category.create({
+      data: {
+        name: data.name,
+        slug: data.slug,
+        short_description: data.short_description,
+        description: data.description,
+        imgUrl: url,
+      },
+    });
+    redirect("/admin/category");
+  } catch (error) {
+    console.log("error happend", error);
+  }
 };

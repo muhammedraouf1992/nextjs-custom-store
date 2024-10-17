@@ -3,7 +3,7 @@ import React from "react";
 
 import Image from "next/image";
 import Link from "next/link";
-
+import logo from "@/public/logo.png";
 import { usePathname } from "next/navigation";
 
 import ShoppingCart from "@/app/(frontend)/_components/ShoppingCart";
@@ -24,15 +24,7 @@ const MainNavbar = ({ cart, category, subCategory }) => {
             href="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
-            <Image
-              src="https://flowbite.com/docs/images/logo.svg"
-              width={40}
-              height={40}
-              alt="Flowbite Logo"
-            />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap text-primary-foreground">
-              Flowbite
-            </span>
+            <Image src={logo} width={70} height={70} alt="Flowbite Logo" />
           </Link>
 
           <div className="hidden w-full lg:block md:w-auto">
