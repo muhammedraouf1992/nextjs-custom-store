@@ -10,6 +10,8 @@ const Footer = () => {
             <a href="https://flowbite.com" className="flex items-center">
               <Image
                 src="https://flowbite.com/docs/images/logo.svg"
+                width={40}
+                height={40}
                 className="mr-3 h-8"
                 alt="FlowBite Logo"
               />

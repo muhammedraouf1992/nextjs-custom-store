@@ -10,6 +10,7 @@ const nextConfig = {
       { hostname: "ashleywildegroup.com" },
       { hostname: "en-sa.sssports.com" },
       { hostname: "media.zid.store" },
+      { hostname: "flowbite.com" },
     ],
   },
 };
