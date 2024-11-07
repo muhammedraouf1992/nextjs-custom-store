@@ -44,23 +44,24 @@ model SubCategory {
 }
 
 model Product {
-  id                String             @id @default(uuid())
+  id                String @id @default(uuid())
   name              String
   slug              String
   short_description String
-  description       String
-  categoryId        String?
-  subCategoryId     String?
-  is_available      Boolean            @default(false)
-  is_newArrival     Boolean            @default(false)
-  is_featured       Boolean            @default(false)
-  is_bestSeller     Boolean            @default(false)
-  category          Category?          @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  subCategory       SubCategory?       @relation(fields: [subCategoryId], references: [id], onDelete: Cascade)
-  variations        ProductVariation[]
-  images            Image[]
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
+
+  description   String
+  categoryId    String?
+  subCategoryId String?
+  is_available  Boolean            @default(false)
+  is_newArrival Boolean            @default(false)
+  is_featured   Boolean            @default(false)
+  is_bestSeller Boolean            @default(false)
+  category      Category?          @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  subCategory   SubCategory?       @relation(fields: [subCategoryId], references: [id], onDelete: Cascade)
+  variations    ProductVariation[]
+  images        Image[]
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
 }
 
 model ProductVariation {
@@ -69,6 +70,8 @@ model ProductVariation {
   sizeId    String
   colorId   String
   price     Float
+  sku       String?     @unique @default(uuid())
+  bar_code  String?
   quantity  Int
   product   Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
   images    Image[] // Relation to images

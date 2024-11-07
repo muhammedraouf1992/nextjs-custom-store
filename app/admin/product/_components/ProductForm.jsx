@@ -49,6 +49,8 @@ const ProductForm = ({ categories, sizes, colors }) => {
     defaultValues: {
       name: "",
       slug: "",
+      sku: "",
+      bar_code: "",
       short_description: "",
       description: "",
       product_img: [],
@@ -71,6 +73,8 @@ const ProductForm = ({ categories, sizes, colors }) => {
     formData.append("slug", filteredSlug);
     formData.append("short_description", data.short_description);
     formData.append("description", data.description);
+    formData.append("sku", data.sku);
+    formData.append("bar_code", data.bar_code);
     formData.append("categoryId", data.categoryId);
     data.subCategoryId
       ? formData.append("subCategoryId", data.subCategoryId)
@@ -104,33 +108,37 @@ const ProductForm = ({ categories, sizes, colors }) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {/* Name Field */}
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Product name</FormLabel>
-              <FormControl>
-                <Input placeholder="add product name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="slug"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Product slug</FormLabel>
-              <FormControl>
-                <Input placeholder="add product slug" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-4">
+          {/* Name Field */}
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Product name</FormLabel>
+                <FormControl>
+                  <Input placeholder="add product name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* slug Field */}
+          <FormField
+            control={form.control}
+            name="slug"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Product slug</FormLabel>
+                <FormControl>
+                  <Input placeholder="add product slug" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
         <FormField
           control={form.control}
           name="short_description"
@@ -451,6 +459,38 @@ const ProductForm = ({ categories, sizes, colors }) => {
                     <FormLabel>Quantity</FormLabel>
                     <FormControl>
                       <Input placeholder="Enter quantity" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div>
+              {/* sku Field */}
+              <FormField
+                control={form.control}
+                name="sku"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Product sku</FormLabel>
+                    <FormControl>
+                      <Input placeholder="add product sku" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div>
+              {/* barcode Field */}
+              <FormField
+                control={form.control}
+                name="bar_code"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Product barcode</FormLabel>
+                    <FormControl>
+                      <Input placeholder="add product barcode" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

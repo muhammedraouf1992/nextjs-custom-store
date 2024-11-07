@@ -30,6 +30,8 @@ const EditProductVariation = ({ variation }) => {
     const formData = new FormData();
     formData.append("price", data.price || variation.price);
     formData.append("quantity", data.quantity || variation.quantity);
+    formData.append("sku", data.sku || variation.sku);
+    formData.append("bar_code", data.bar_code || variation.bar_code);
 
     if (image) {
       formData.append("variation_img", image); // Append new image file
@@ -88,6 +90,45 @@ const EditProductVariation = ({ variation }) => {
             </FormItem>
           )}
         />
+
+        {/* sku Field */}
+        <FormField
+          control={form.control}
+          name="sku"
+          render={({ field: { value, ...moreFields } }) => (
+            <FormItem>
+              <FormLabel>Product sku</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="add product sku"
+                  {...moreFields}
+                  value={value || variation?.sku}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* barcode Field */}
+        <FormField
+          control={form.control}
+          name="bar_code"
+          render={({ field: { value, ...moreFields } }) => (
+            <FormItem>
+              <FormLabel>Product barcode</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="add product barcode"
+                  {...moreFields}
+                  value={value || variation?.bar_code}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="variation_img"

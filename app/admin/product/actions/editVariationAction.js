@@ -17,7 +17,8 @@ export const editVariationAction = async (formData, variation) => {
   }
 
   const data = results.data;
-
+  console.log("data from the server");
+  console.log(data);
   let imageUrl;
   const imageId = variation.images[0]?.id;
 
@@ -48,6 +49,8 @@ export const editVariationAction = async (formData, variation) => {
         data: {
           price: Number(data.price),
           quantity: Number(data.quantity),
+          sku: data.sku,
+          bar_code: data.bar_code,
           images: {
             update: {
               where: { id: imageId },
@@ -63,6 +66,8 @@ export const editVariationAction = async (formData, variation) => {
           data: {
             price: Number(data.price),
             quantity: Number(data.quantity),
+            sku: data.sku,
+            bar_code: data.bar_code,
           },
         }),
         prisma.image.create({

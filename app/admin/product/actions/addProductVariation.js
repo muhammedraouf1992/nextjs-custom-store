@@ -20,6 +20,8 @@ export const addProductVariation = async (formData, productId) => {
       data: {
         productId,
         price: Number(data.price),
+        sku: data.sku,
+        bar_code: data.bar_code,
         quantity: Number(data.quantity),
         sizeId: data.sizeId,
         colorId: data.colorId,

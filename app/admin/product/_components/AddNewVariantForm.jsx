@@ -35,6 +35,8 @@ const AddNewVariantForm = ({ sizes, colors, product }) => {
     defaultValues: {
       quantity: "",
       price: "",
+      sku: "",
+      bar_code: "",
       sizeId: "",
       colorId: "",
       variation_img: "",
@@ -47,6 +49,8 @@ const AddNewVariantForm = ({ sizes, colors, product }) => {
     const formData = new FormData();
     formData.append("quantity", data.quantity);
     formData.append("price", data.price);
+    formData.append("sku", data.sku);
+    formData.append("bar_code", data.bar_code);
     formData.append("colorId", data.colorId);
     formData.append("sizeId", data.sizeId);
     formData.append("variation_img", data.variation_img);
@@ -171,6 +175,38 @@ const AddNewVariantForm = ({ sizes, colors, product }) => {
               )}
             />
           </div>
+          <div>
+            {/* sku Field */}
+            <FormField
+              control={form.control}
+              name="sku"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Product sku</FormLabel>
+                  <FormControl>
+                    <Input placeholder="add product sku" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div>
+            {/* barcode Field */}
+            <FormField
+              control={form.control}
+              name="bar_code"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Product barcode</FormLabel>
+                  <FormControl>
+                    <Input placeholder="add product barcode" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
         </div>
 
         <div className="mt-5">
@@ -179,7 +215,7 @@ const AddNewVariantForm = ({ sizes, colors, product }) => {
             name="variation_img"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Category Image</FormLabel>
+                <FormLabel>Variation Image</FormLabel>
                 <FormControl>
                   <Input
                     type="file"

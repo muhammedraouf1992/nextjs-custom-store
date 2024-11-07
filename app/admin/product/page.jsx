@@ -11,6 +11,9 @@ const ProductsPage = async ({ searchParams }) => {
   const page = parseInt(searchParams.page) || 1;
 
   const productsPromise = await prisma.product.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
     include: {
       images: true,
     },
