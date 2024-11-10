@@ -18,7 +18,7 @@ const ProductCard = ({ product }) => {
           {truncate(product.category.name, 25)}
         </h3>
         <p className="   font-bold">{truncate(product.name, 25)}</p>
-        <p className="text-lg text-blue-500 font-extrabold my-1">
+        <p className="text-lg text-blue-700 font-extrabold my-1">
           {formatPrice(product.variations[0].price)}
         </p>
       </div>

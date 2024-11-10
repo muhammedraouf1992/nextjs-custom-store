@@ -57,6 +57,8 @@ const uploadProducts = async (parsedData) => {
         colorId: filteredColor.id,
         price: row.price,
         quantity: row.quantity,
+        sku: row.sku,
+        bar_code: row.barcode,
         variation_image: row.variation_image,
       });
     } else {
@@ -86,6 +88,8 @@ const uploadProducts = async (parsedData) => {
             colorId: filteredColor.id,
             price: row.price,
             quantity: row.quantity,
+            sku: row.sku,
+            bar_code: row.bar_code,
             variation_image: row.variation_image,
           },
         ],
