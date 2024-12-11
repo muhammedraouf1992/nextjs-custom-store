@@ -37,6 +37,8 @@ export const editCategoryAction = async (formData, category) => {
       where: { id: category.id },
       data: {
         name: data.name,
+        slug: data.slug,
+        short_description: data.short_description,
         description: data.description,
         imgUrl: imageUrl,
       },

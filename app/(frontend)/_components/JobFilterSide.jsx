@@ -18,6 +18,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -28,6 +29,7 @@ import { filterSchema } from "@/lib/validationSchema";
 import { useRouter } from "next/navigation";
 const JobFilterSide = ({ sizes, colors, categoryId }) => {
   const [range, setRange] = useState([0, 300]);
+  const [ssize, setSize] = useState();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const handleRangeChange = (value) => {
@@ -56,34 +58,58 @@ const JobFilterSide = ({ sizes, colors, categoryId }) => {
     router.push(`/category/${categoryId}`);
     router.refresh();
   };
+
+  function getProductSizeId(newSizesArray, value) {
+    const isExist = newSizesArray.find(
+      (newSize) => newSize.name.toLowerCase() == value.toLowerCase()
+    );
+    if (!isExist) {
+      return null;
+    }
+    return isExist.id;
+  }
+  const handleSizeSelection = (sizeId) => {
+    setSize(sizeId);
+  };
   return (
     <aside className="relative md:sticky top-0 h-fit rounded-lg border bg-background p-4 md:w-[300px]  md:block">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="space-y-4">
+            {/* Size Select */}
             <FormField
               control={form.control}
               name="sizeId"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Size</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select size" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {sizes.map((size) => (
-                        <SelectItem value={size.id} key={size.id}>
-                          {size.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                <FormItem className="py-2">
+                  <FormLabel>Select Size</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      className=""
+                    >
+                      <div className="grid grid-cols-3 lg:grid-cols-5 size">
+                        {sizes.map((size) => (
+                          <FormItem className={``} key={size.id}>
+                            <FormControl>
+                              <RadioGroupItem
+                                value={getProductSizeId(sizes, size.name)}
+                              />
+                            </FormControl>
+                            <FormLabel
+                              className={`font-normal !m-0 !p-0 w-full h-10 cursor-pointer flex justify-center items-center border border-blue-500/20  ${
+                                ssize == size.id ? "abled" : ""
+                              }`}
+                              onClick={() => handleSizeSelection(size.id)}
+                            >
+                              {size.name}
+                            </FormLabel>
+                          </FormItem>
+                        ))}
+                      </div>
+                    </RadioGroup>
+                  </FormControl>
 
                   <FormMessage />
                 </FormItem>
